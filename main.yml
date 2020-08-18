@@ -1,6 +1,6 @@
 ---
 - name: Test
-  hosts: test_hosts
+  hosts: all
   become: yes
   roles:
     - { role: unbound }
