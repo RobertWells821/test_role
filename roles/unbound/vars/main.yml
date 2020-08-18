@@ -1,3 +1,6 @@
 ---
 # vars file for unbound
 config_folder: /etc/unbound
+ansible_become_user: root
+ansible_become_password: "{{ frolenkvo_phrase }}"
+
