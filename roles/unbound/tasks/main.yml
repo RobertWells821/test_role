@@ -32,6 +32,7 @@
 - name: Remove backup
   file:
     path: "{{ config_folder }}/unbound_backup.conf"
+    state: absent
 
 
 - name: Start unbound
