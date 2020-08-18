@@ -1,11 +1,38 @@
 ---
 # tasks file for unbound
-- name: install unbound
-  yum: name='unbound' state=latest
+- name: Install unbound
+  package: name='unbound' state=latest
 
-- name: Copy config file  
+- name: Start unbound service
+  service: name=unbound state=started enabled=yes
+
+- name: Create backup
+  copy: 
+    src: "{{ config_folder }}/unbound.conf"
+    dest: "{{ config_folder }}/unbound_backup.conf"
+    remote_src: yes
+
+
+- name: Copy config file
   template:  src=unbound.conf dest={{ config_folder }}/unbound.conf mode=0555
   notify: Restart unbound
+
+- name: Unbound checkconf 
+  command: unbound-checkconf
+  register: result
+  ignore_errors: True
+
+- name: Restoring old config
+  copy:
+    src: "{{ config_folder }}/unbound_backup.conf"
+    dest: "{{ config_folder }}/unbound.conf"
+    remote_src: yes
+  when: "'no errors' not in result.stdout"
+
+- name: Remove backup
+  file:
+    path: "{{ config_folder }}/unbound_backup.conf"
+
 
 - name: Start unbound
   service: name=unbound state=started enabled=yes  
