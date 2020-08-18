@@ -1,0 +1,7 @@
+---
+- name: Test
+  hosts: test_hosts
+  become: yes
+  roles:
+    - { role: unbound }
+  tags: install

@@ -1,0 +1,11 @@
+---
+# tasks file for unbound
+- name: install unbound
+  yum: name='unbound' state=latest
+
+- name: Copy config file  
+  template:  src=unbound.conf dest={{ config_folder }}/unbound.conf mode=0555
+  notify: Restart unbound
+
+- name: Start unbound
+  service: name=unbound state=started enabled=yes  

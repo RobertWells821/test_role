@@ -1,0 +1,3 @@
+---
+# vars file for unbound
+config_folder: /etc/unbound
